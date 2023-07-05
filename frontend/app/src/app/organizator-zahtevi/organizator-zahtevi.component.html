@@ -1,0 +1,75 @@
+<body id="vrhStrane">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+            
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav ">
+                <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+                <li><a [routerLink]="['/organizatorZahtevi']" routerLinkActive="active">NEODOBRENI ZAHTEVI</a></li>
+                <li><a [routerLink]="['/organizatorSport']" routerLinkActive="active">SPORT</a></li>
+                <li><a [routerLink]="['/organizatorTakmicenje']" routerLinkActive="active">TAKMICENJA</a></li>
+                <li><a [routerLink]="['/organizatorRekord']" routerLinkActive="active">REKORDI</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+                <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <div id="zahtevi" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2 class="text-center mt-5 mb-5">
+            Neodobreni zahtevi za registraciju
+          </h2>
+        
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Korisnicko ime</th>
+                <th scope="col">Nacionalnost</th>
+                <th scope="col">Mail</th>
+                <th scope="col">Tip</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let kor of neodobreniKorisnici'>
+                <td>{{kor.ime}}</td>
+                <td>{{kor.prezime}}</td>
+                <td>{{kor.korisnicko_ime}}</td>
+                <td>{{kor.nacionalnost}}</td>
+                <td>{{kor.mail}}</td>
+                <td>{{kor.tip}}</td>
+                <td>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary" (click)='odobri(kor.korisnicko_ime,kor.nacionalnost, kor.tip)'>Odobri</button>
+                    <button type="button" class="btn btn-primary" (click)='odbij(kor.korisnicko_ime)'>Odbij</button>
+                  </div>
+                </td>
+            </tr>
+            </tbody>
+          </table> 
+        </div>
+      </div>
+    </div>
+    <br><br><br><br>
+    <footer class="container-fluid text-center">
+        <a href="/organizatorZahtevi#vrhStrane" title="Vrh Strane">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+    </footer>
+</body> 

@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    font: 400 15px Lato, sans-serif;
+    line-height: 1.8;
+    color: #525151;
+    background-color: #e7e6e6;
+  }
+
+.container-fluid {
+    padding: 60px 50px;
+}
+
+.navbar-brand{
+  padding: 0%;
+}
+
+.navbar {
+  margin-bottom: 0;
+  background-color: #171175;
+  z-index: 9999;
+  border: 0;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+  border-radius: 0;
+  font-family: Montserrat, sans-serif;
+}
+
+.navbar li a, .navbar .navbar-brand {
+  color: #fff !important;
+}
+.navbar-nav li a:hover, .navbar-nav li.active a {
+  color: #2519ca !important;
+  background-color: #fff !important;
+}
+
+.active{
+  color: #2519ca !important;
+  background-color: rgb(115, 115, 214);
+  background-color:#47bed3
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #fff !important;
+}
+
+h2 {
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #303030;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+  footer .glyphicon {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+
+  footer{
+      background-color:#171175 ;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+      color: #fff;
+      padding: 0%;
+  }
+
+ .input-group-addon{
+   min-width: 150px;
+ }
+
+ .aaa{
+  width: 100px;
+}
+
+ 

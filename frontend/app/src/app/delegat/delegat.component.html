@@ -1,0 +1,343 @@
+<body id="vrhStrane">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar1">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+             
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar1">
+            <ul class="nav navbar-nav ">
+              <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+              <li><a [routerLink]="['/delegat']" routerLinkActive="active" >DELEGAT</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+                <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+
+    <div id="raspored" class="container-fluid">
+      <div class="row">
+        <div class="col-sm-8">
+          <h2 class="text-center mt-5 mb-5">
+            Unos rasporeda takmicenja
+          </h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Sport</th>
+                  <th scope="col">Disciplina</th>
+                  <th scope="col">Pol</th>
+                  <th scope="col">Datum pocetka</th>
+                  <th scope="col">Datum kraja</th>
+                  <th scope="col">Lokacija</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let t of takmicenja;let i=index;'>
+                  <td>{{t.sport}}</td>
+                  <td>{{t.disciplina}}</td>
+                  <td>{{t.pol}}</td>
+                  <td>{{t.datumPocetka}}</td>
+                  <td>{{t.datumKraja}}</td>
+                  <td>{{t.lokacija}}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary" *ngIf='!popuniMec[i]' (click)='dodajRaspored(t)'>Dodaj u raspored</button>
+                      <button type="button" class="btn btn-primary" *ngIf='popuniMec[i]' (click)='dodajRasporedMeceva(t)'>Dodaj u raspored</button>
+                    </div>
+                  </td>
+              </tr>
+              </tbody>
+            </table>
+            <span style="color: red;">{{message1}}</span> 
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-primary" *ngIf='raspored' >
+            <div class="panel-heading" style="text-align: center; font-weight: bold; font-size: large;">Sport:{{sport}} | Disciplina:{{disciplina}}</div>
+            <div class="panel-body">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Datum pocetka takmicenja</td>
+                    <td>{{datumPocetka}}</td>
+                  </tr>
+                  <tr>
+                    <td>Datum kraja takmicenja</td>
+                    <td>{{datumKraja}}</td>
+                  </tr>
+                  <tr>
+                    <td>Lokacija</td>
+                    <td>{{lokacija}}</td>
+                  </tr>
+                  <tr>
+                    <td>Pol</td>
+                    <td>{{pol}}</td>
+                  </tr>
+                  <tr>
+                    <td>Unesite datum i vreme takmicenja</td>
+                    <td><input type="datetime-local" class="form-control" name="datumVreme" [(ngModel)]='datumVreme'></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <button type="button" class="btn btn-primary" (click)='dodaj()'>Dodaj</button>        
+                      <button type="button" class="btn btn-primary" (click)='zatvori()'>Zatvori</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span style="color: red;">{{message}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="panel panel-primary" *ngIf='rasporedMec' >
+            <div class="panel-heading" style="text-align: center; font-weight: bold; font-size: large;">Sport:{{sport}} | Disciplina:{{disciplina}}</div>
+            <div class="panel-body">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Datum pocetka takmicenja</td>
+                    <td>{{datumPocetka}}</td>
+                  </tr>
+                  <tr>
+                    <td>Datum kraja takmicenja</td>
+                    <td>{{datumKraja}}</td>
+                  </tr>
+                  <tr>
+                    <td>Lokacija</td>
+                    <td>{{lokacija}}</td>
+                  </tr>
+                  <tr>
+                    <td>Pol</td>
+                    <td>{{pol}}</td>
+                  </tr>
+                  <tr *ngFor='let t of takmicari'>
+                    <td>{{t.imePrezime}}</td>
+                    <td *ngIf='t.nosilac'>{{t.nosilac}}</td>
+                  </tr>
+                  <tr>
+                    <button type="button" class="btn btn-primary" (click)='algoritamTenis()'>Rasporedi igrace u parove</button>
+                  </tr>
+                  <tr>
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor='let z of zreb2;let k=index;'>
+                          <td>Takmicarski par: {{(k+1)}}</td>
+                          <td *ngIf='takmicariPomocni[2*k]'>{{takmicariPomocni[2*k].imePrezime}}<sub>{{takmicariPomocni[2*k].nosilac}}</sub></td>
+                          <td *ngIf='takmicariPomocni[(2*k+1)]'>{{takmicariPomocni[(2*k+1)].imePrezime}}<sub>{{takmicariPomocni[(2*k+1)].nosilac}}</sub></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </tr>
+                  <tr> 
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor='let f of fazeTakmicenja;let k=index;'>
+                          <td>{{f}}</td>
+                          <td>{{paroviTakmicenja[k]}}.par</td>
+                          <td> 
+                            Teren:<input type="text" *ngIf='!postojiRasporedMeca[k]' class="form-control" [(ngModel)]='terenMeca[k]'>
+                            <span *ngIf='postojiRasporedMeca[k]'>{{postojiRasporedMeca[k].teren}}</span>
+                          </td>
+                          <td>
+                            <span *ngIf='!postojiRasporedMeca[k]'>Unesite datum i vreme takmicenja:</span><input type="datetime-local" *ngIf='!postojiRasporedMeca[k]' class="form-control" [(ngModel)]='datumVremeMeca[k]'>
+                            <span *ngIf='postojiRasporedMeca[k]'>{{postojiRasporedMeca[k].datumVreme}}</span>
+                          </td>
+                          <td><button type="button" class="btn btn-primary" *ngIf='!postojiRasporedMeca[k]' (click)='dodajRasporedMeca(k)'>Ubaci</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </tr>
+                  <tr>
+                    <td colspan="2">        
+                      <button type="button" class="btn btn-primary" (click)='zatvoriRasporedMeca()'>Zatvori</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <span style="color: red;">{{message}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="rezultat" class="container-fluid" *ngFor='let r of takmicenja; let i=index;'>
+      <div class="row" *ngIf='!popuniMec[i]'>
+        <div class="col-sm-2" *ngIf='popuniRezultat[i]'></div>
+        <div class="col-sm-8" *ngIf='popuniRezultat[i]'>
+          <h4 style="color:#171175;">Popunite rezultat za sport:<span style="font-weight: bold;">{{takmicenja[i].sport}}</span>, 
+            disciplinu:<span style="font-weight: bold;">{{takmicenja[i].disciplina}}</span>, redni broj pokusaja: {{kolo[i]}}</h4>
+        </div>
+        <div class="col-sm-2" *ngIf='popuniRezultat[i]'></div>
+
+        <div class="col-sm-2" *ngIf='!popuniRezultat[i]'></div>
+        <div class="col-sm-8" *ngIf='!popuniRezultat[i]'>
+          <h4 class="zavrseno">{{zavrsenoPoruka[i]}}</h4>
+          <h4 style="color:#171175;">Rezultat je popunjen za sport:<span style="font-weight: bold;">{{takmicenja[i].sport}}</span>, 
+            disciplinu:<span style="font-weight: bold;">{{takmicenja[i].disciplina}}</span></h4>
+            <button type="button" class="btn btn-primary btn-block btn-large" *ngIf='ostaliSportovi[i]' (click)='prikaziNajboljeRezultate(i,takmicenja[i].sport,takmicenja[i].disciplina,takmicenja[i].takmicari)'>Prikazi najbolje rezultate</button>
+            <button type="button" class="btn btn-primary btn-block btn-large" *ngIf='streljastvo[i]' (click)='prikaziNajboljeRezultateZaStreljastvo(i,takmicenja[i].sport,takmicenja[i].disciplina,takmicenja[i].takmicari)'>Prikazi najbolje rezultate</button>
+            <button type="button" class="btn btn-primary btn-block btn-large" *ngIf='skokovi[i]' (click)='prikaziNajboljeRezultateZaSkokove(i,takmicenja[i].sport,takmicenja[i].disciplina,takmicenja[i].takmicari)'>Prikazi najbolje rezultate</button>
+            <div *ngIf='trenutniRez[i]' >
+              <table class="table">
+                <thead>
+                  <tr >
+                    <th scope="col">Ime i prezime</th>
+                    <th scope="col">Najbolji rezultat</th>
+                    <th scope="col">Trenutna pozicija</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor='let m of maxRez;let k=index;'>
+                    <td *ngIf='m'>{{m.imePrezime}}</td>
+                    <td *ngIf='m'>{{m.rez}}</td>
+                    <td *ngIf='m'>{{pozicija[k]}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="button" class="btn btn-primary btn-block btn-large" (click)='zavrsiDodatniKrug(i)'>Dodatni krug</button>
+              <button type="button" class="btn btn-primary btn-block btn-large" *ngIf='zavrsiTak[i]' (click)='zavrsiTakmicenje(i)'>Zavrsi takmicenje</button>
+            </div>
+        </div>
+        <div class="col-sm-2" *ngIf='!popuniRezultat[i]'></div>
+
+        <div class="row">
+        <div class="col-sm-2" *ngIf='dodatniKrug[i]'></div>
+        <div class="col-sm-8" *ngIf='dodatniKrug[i]'>
+          <h4 style="color:#171175;">Dodatni krug za sport:<span style="font-weight: bold;">{{takmicenja[i].sport}}</span>, 
+            disciplinu:<span style="font-weight: bold;">{{takmicenja[i].disciplina}}</span></h4>
+            
+            <div class="input-group" *ngFor='let dupl of duplikatRezultati; let k=index;'>
+                <span class="input-group-addon" style="color: black;">{{dupl.imePrezime}}</span>
+                <input type="text" class="form-control" name="dodatnoKolo" [(ngModel)]='poljaZaDupleRezultate[k]' placeholder="Format: {{takmicenja[i].format}}">
+                
+                <br>
+            </div> 
+            <button type="button" class="btn btn-primary btn-block btn-large" (click)='dodajPozicije(i)'>Uvrsti rezultate dodatnog kruga</button>
+          </div>
+        <div class="col-sm-2" *ngIf='dodatniKrug[i]'></div>
+      </div>
+
+        <div class="col-sm-3" *ngIf='popuniRezultat[i]'></div>
+        <div class="col-sm-6" *ngIf='popuniRezultat[i]'>
+          <div class="input-group" *ngFor='let t of takmicenja[i].takmicari; let k=index;'>
+            <span class="input-group-addon" style="color: black;">{{t.imePrezime}}</span>
+            <!--*ngIf='!vraceniRezultati1[i][kolo[i]-1][k]'-->
+            <input type="text" class="form-control" name="rezultat" *ngIf='!popunjenRezultatZaTakmicara[i][k]'  [(ngModel)]='popunjenRezultat[i][k]' placeholder="Format: {{takmicenja[i].format}}">
+            <input type="text" class="form-control" name="rezultat" *ngIf='popunjenRezultatZaTakmicara[i][k]' disabled placeholder="Rezultat je unet za ovog takmicara">
+            <button type="button" class="btn btn-primary" *ngIf='!popunjenRezultatZaTakmicara[i][k]' (click)='dodajRezultat(i,t,k)'>Dodaj</button>
+            <br>          
+          </div> 
+          
+        </div>
+        <div class="col-sm-3" *ngIf='popuniRezultat[i]'></div>
+        <br>
+        <br>
+        <div class="col-sm-4" *ngFor='let rez of vraceniRezultati1[i];let j=index;'>
+          <div>
+            <table class="table">
+              <h5 style="color: #171175;">Rezultati {{j+1}}. kola:</h5>
+              <tbody>
+                <tr *ngFor='let r of vraceniRezultati1[i][j]'>
+                  <td>{{r.imePrezime}}</td>
+                  <td>{{r.format}}: {{r.rez}}</td>
+                </tr>
+              </tbody>
+            </table> 
+          </div>
+          <br>
+        </div>
+      </div>
+
+
+      <div class="row"  *ngIf='popuniMec[i]'>
+        <div class="col-sm-2" *ngIf='vraceniMecevi[0]'></div>
+        <div class="col-sm-8" *ngIf='vraceniMecevi[0]'>
+          <h4 style="color:#171175;">Popunite rezultat za sport:<span style="font-weight: bold;">{{takmicenja[i].sport}}</span>, 
+            disciplinu:<span style="font-weight: bold;">{{takmicenja[i].disciplina}}</span></h4>
+        </div>
+        <div class="col-sm-2" *ngIf='vraceniMecevi[0]'></div>
+        
+        <div class="col-sm-2" *ngIf='vraceniMecevi[0]'></div>
+        <div class="col-sm-8" *ngIf='vraceniMecevi[0]'>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Faza</th>
+                <th scope="col">Takmicarski par</th>
+                <th scope="col">Prvi takmicar</th>
+                <th scope="col">Drugi takmicar</th>
+                <th scope="col">Rezultat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let m of vraceniMecevi;let k=index;'>
+                <td *ngIf='m'>{{m.faza}}</td>
+                <td *ngIf='m'>{{m.takmicarskiPar}}</td>
+                <td *ngIf='m'>{{m.imePrezimeTakmicara1}}<sub>{{m.nosilac1}}</sub></td>
+                <td *ngIf='m'>{{m.imePrezimeTakmicara2}}<sub>{{m.nosilac2}}</sub></td>
+                <td *ngIf='m'>
+                  <input type="text" *ngIf='!m.rez' class="form-control" placeholder="Format: A:B" [(ngModel)]='popunjenRezMeca[k]'>
+                  <button type="button" class="btn btn-primary" *ngIf='!m.rez' (click)='dodajRezultatMeca(i,k)'>Dodaj</button>
+                  <span *ngIf='m.rez'>{{m.rez}}</span>
+                </td>
+              </tr>
+              <!--DODAJ METODU ZA ZAVRSI FAZU-->
+              <tr>
+                <button type="button" class="btn btn-primary" *ngIf='sledecaFaza' (click)='zavrsiFazu(i)'>Zavrsi fazu</button>
+                <button type="button" class="btn btn-primary" *ngIf='krajMeca' (click)='zavrsiTakmicenjeEkipno(i)'>Zavrsi takmicenje</button>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-2" *ngIf='vraceniMecevi[0]'></div>
+      </div>
+</section>
+    
+
+    
+    
+    
+  
+
+    
+
+<footer class="container-fluid text-center">
+    <a href="/delegat#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>
+

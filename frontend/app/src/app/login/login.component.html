@@ -1,0 +1,67 @@
+<body id="vrhStrane">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+            
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav ">
+              <li><a routerLink='/pocetna'>POCETNA</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink='/register'><span class="glyphicon glyphicon-user"></span>Registracija</a></li>
+                <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <br><br>
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-sm-5 prijava">
+                <h2 class="prijava">Prijava na sistem:</h2>
+                <hr>
+                <form>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="korisnicko_ime" type="text" class="form-control" name="korisnicko_ime" placeholder="Korisnicko ime" [(ngModel)]='korisnicko_ime'>
+                </div>
+                
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input id="password" type="password" class="form-control" name="lozinka" placeholder="Lozinka" [(ngModel)]='lozinka'>
+                </div>
+                <hr>
+                <div class="input-group">
+                    <input type="submit" class="btn btn-primary" value="Prijava" (click)='prijava()'>
+                </div>
+                </form>
+                
+                <div *ngIf='greska' class="alert alert-danger">
+                  <strong>Greska!</strong> {{greska}}
+                </div>
+                <!--<span style="color: red;">{{greska}}</span>-->
+            </div>
+        </div>
+    </div>
+
+ 
+
+  <footer class="container-fluid text-center">
+    <a href="/login#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>
+
+
+

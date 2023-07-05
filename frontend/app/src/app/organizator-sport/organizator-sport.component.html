@@ -1,0 +1,95 @@
+<body id="vrhStrane">
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav ">
+          <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+          <li><a [routerLink]="['/organizatorZahtevi']" routerLinkActive="active">NEODOBRENI ZAHTEVI</a></li>
+          <li><a [routerLink]="['/organizatorSport']" routerLinkActive="active">SPORT</a></li>
+          <li><a [routerLink]="['/organizatorTakmicenje']" routerLinkActive="active">TAKMICENJA</a></li>
+          <li><a [routerLink]="['/organizatorRekord']" routerLinkActive="active">REKORDI</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+          <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="sport" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <h2>Dodavanje sportova u sistem:</h2>
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Naziv sporta:</span>
+            <input (change)='popuni()' id="sport" type="text" class="form-control" name="sport" list="sports"
+              placeholder="Sport" [(ngModel)]='sportIzabran'>
+            <datalist id="sports">
+              <option *ngFor='let s of naziviSportova'>{{s}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Naziv discipline:</span>
+            <input id="sport1" type="text" class="form-control" name="disciplina" list="disciplina"
+              placeholder="Disciplina" [(ngModel)]='disciplinaIzabrana'>
+            <datalist *ngIf='naziviDisciplina' id="disciplina">
+              <option *ngFor='let d of naziviDisciplina'>{{d.disciplina}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Naziv vrste:</span>
+            <label (change)='minmax("ekipni")' class="radio-inline"><input type="radio" name="optradio" value="ekipni"
+                [(ngModel)]='vrstaIzabrana'>Ekipni</label>
+            <label (change)='minmax("individualni")' class="radio-inline"><input type="radio" name="optradio"
+                value="individualni" [(ngModel)]='vrstaIzabrana'>Individualni</label>
+          </div>
+          <br>
+          <div *ngIf='prikaz' class="input-group">
+            <span class="input-group-addon">Min/Max broj igraca:</span>
+            <input id="broj" type="text" class="form-control" name="broj" placeholder="Format:min/max ili tacanBroj"
+              [(ngModel)]='brIgracaIzabrano'>
+          </div>
+
+          <br>
+          <div class="input-group">
+            <button (click)='dodajSport()'>Dodaj sport</button>
+          </div>
+          <div *ngIf='message1' class="alert alert-warning">
+            <strong>Paznja!</strong> {{message1}}
+          </div>
+          <div *ngIf='message2' class="alert alert-warning">
+            <strong>Paznja!</strong> {{message2}}
+          </div>
+          <div *ngIf='message3' class="alert alert-danger">
+            <strong>Paznja!</strong> {{message3}}
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-5">
+        <img src="/assets/sports.jpg" alt="Sportovi" width="100%">
+      </div>
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <a href="/organizatorSport#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>

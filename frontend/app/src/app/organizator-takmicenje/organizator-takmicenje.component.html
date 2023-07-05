@@ -1,0 +1,226 @@
+<body id="vrhStrane">
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav ">
+          <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+          <li><a [routerLink]="['/organizatorZahtevi']" routerLinkActive="active">NEODOBRENI ZAHTEVI</a></li>
+          <li><a [routerLink]="['/organizatorSport']" routerLinkActive="active">SPORT</a></li>
+          <li><a [routerLink]="['/organizatorTakmicenje']" routerLinkActive="active">TAKMICENJA</a></li>
+          <li><a [routerLink]="['/organizatorRekord']" routerLinkActive="active">REKORDI</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+          <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="takmicenje" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <h2>Dodavanje takmicenja u sistem:</h2>
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Naziv sporta:</span>
+            <input (change)='popuniTakmicenje()' id="sportTakmicenje" type="text" class="form-control" name="sport"
+              list="sports" placeholder="Sport" [(ngModel)]='sportTakmicenje'>
+            <datalist id="sports">
+              <option *ngFor='let s of naziviSportovaTakmicenje'>{{s}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Naziv discipline:</span>
+            <input (change)='dohvatiSportisteZaTakmicenje()' id="disciplinaTakmicenje" type="text" class="form-control"
+              name="disciplina" list="disciplina" placeholder="Disciplina" [(ngModel)]='disciplinaTakmicenje'>
+            <datalist *ngIf='naziviDisciplinaTakmicenje' id="disciplina">
+              <option *ngFor='let d of naziviDisciplinaTakmicenje'>{{d.disciplina}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Pol:</span>
+            <label class="radio-inline"><input (change)='dohvatiSportisteZaTakmicenje()' type="radio" name="pol"
+                value="musko" [(ngModel)]='polTakmicenje'>Musko</label>
+            <label class="radio-inline"><input (change)='dohvatiSportisteZaTakmicenje()' type="radio" name="pol"
+                value="zensko" [(ngModel)]='polTakmicenje'>Zensko</label>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Naziv vrste:</span>
+            <label class="radio-inline"><input type="radio" (change)='dohvatiEkipeZaTakmicenje()' name="optradio"
+                value="ekipni" [(ngModel)]='vrstaTakmicenje'>Ekipni</label>
+            <label class="radio-inline"><input type="radio" name="optradio" value="individualni"
+                [(ngModel)]='vrstaTakmicenje'>Individualni</label>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Datum pocetka:</span>
+            <input type="date" name="datumPocetka" [(ngModel)]='datumPocetka' class="form-control">
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Datum kraja:</span>
+            <input type="date" name="datumKraja" [(ngModel)]='datumKraja' class="form-control">
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Lokacija takmicenja:</span>
+            <input type="text" class="form-control" name="lokacija" [(ngModel)]='lokacija' placeholder="Lokacija">
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Format:</span>
+            <select class="form-control" name='format' [(ngModel)]='format'>
+              <option selected hidden>Izaberite format</option>
+              <option>A:B</option>
+              <option>SS,TT</option>
+              <option>MM:SS,TT</option>
+              <option>M,CM</option>
+              <option>CC:MM:SS</option>
+              <option>Poeni</option>
+            </select>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Broj pokusaja:</span>
+            <input type="text" class="form-control" name="brojPokusaja" placeholder="Broj pokusaja"
+              [(ngModel)]='brojPokusaja'>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Izaberite sportiste</span>
+            <button type="button" *ngIf='!ekipnoTakmicenje' class="btn btn-info form-control" data-toggle="collapse"
+              data-target="#demo1">Prijavljeni sportisti</button>
+            <button type="button" *ngIf='ekipnoTakmicenje' class="btn btn-info form-control" data-toggle="collapse"
+              data-target="#demo3">Prijavljene ekipe</button>
+          </div>
+          <div id="demo1" class="collapse">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Ime i prezime</th>
+                  <th scope="col">Nacionalnost</th>
+                  <th scope="col">Izabran</th>
+                  <th scope="col" *ngIf='nosilac'>Nosilac</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let s of sportistiZaTakmicenje;let i=index'>
+                  <td>{{s.imePrezime}}</td>
+                  <td>{{s.nacionalnost}}</td>
+                  <td>
+                    <span *ngIf='s.izabran' class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf='!s.izabran' class="glyphicon glyphicon-remove"></span>
+                  </td>
+                  <td *ngIf='nosilac'>
+                    <input type="text" class="form-control" name="nosilac" placeholder="Nosilac"
+                      [(ngModel)]='nosioci[i]'>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary" (click)='izaberi(s)'>Izaberi</button>
+                      <button type="button" class="btn btn-primary" (click)='odustani(s)'>Odustani</button>
+                      <button type="button" class="btn btn-primary" (click)='izbrisi(s.imePrezime)'>Izbrisi</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="demo3" class="collapse">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Naziv drzave</th>
+                  <th scope="col">Izabran</th>
+                  <th scope="col" *ngIf='nosilac'>Nosilac</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let e of ekipeZaTakmicenje;let i=index'>
+                  <td>{{e.naziv}}</td>
+                  <td>{{e.izabran}}</td>
+                  <td *ngIf='nosilac'>
+                    <input type="text" class="form-control" name="nosilac" placeholder="Broj pokusaja"
+                      [(ngModel)]='nosioci[i]'>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary" (click)='izaberiEkipa(e)'>Izaberi</button>
+                      <button type="button" class="btn btn-primary" (click)='odustaniEkipa(e)'>Odustani</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Izaberite delegate</span>
+            <button type="button" class="btn btn-info form-control" data-toggle="collapse" data-target="#demo2">Dostupni
+              delegati takmicenja</button>
+          </div>
+          <div id="demo2" class="collapse">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Ime</th>
+                  <th scope="col">Prezime</th>
+                  <th scope="col">Nacionalnost</th>
+                  <th scope="col">Izabran</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let d of delegatiZaTakmicenjeSaUslovom'>
+                  <td>{{d.ime}}</td>
+                  <td>{{d.prezime}}</td>
+                  <td>{{d.nacionalnost}}</td>
+                  <td>
+                    <span *ngIf='d.izabran' class="glyphicon glyphicon-ok"></span>
+                    <span *ngIf='!d.izabran' class="glyphicon glyphicon-remove"></span>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary" (click)='izaberiDelegat(d)'>Izaberi</button>
+                      <button type="button" class="btn btn-primary" (click)='odustaniDelegat(d)'>Odustani</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+          <div class="input-group">
+            <button *ngIf='!ekipnoTakmicenje' (click)='dodajTakmicenje()'>Dodaj takmicenje</button>
+            <button *ngIf='ekipnoTakmicenje' (click)='dodajEkipnoTakmicenje()'>Dodaj takmicenje</button>
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <a href="/organizatorTakmicenje#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>

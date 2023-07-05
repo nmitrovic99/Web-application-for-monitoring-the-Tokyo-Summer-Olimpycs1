@@ -1,0 +1,117 @@
+<body id="vrhStrane">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+            
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav ">
+              <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+              <li><a [routerLink]="['/vodjaSportista']" routerLinkActive="active">DODAJ SPORTISTU</a></li>
+              <li><a [routerLink]="['/vodjaDelegacija']" routerLinkActive="active">CLANOVI DELEGACIJE</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+                <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+ 
+    <div id="sportista" class="container-fluid">
+      <div class="row">
+        <h2 class="text-center mt-5 mb-5">
+          Dodavanje sportista
+        </h2>
+        <div class="col-sm-6">
+            <form>
+              <h3 class="text-center mt-5 mb-5">
+                Individualni sportovi
+              </h3>
+              <br> 
+              <div class="input-group">
+                  <span class="input-group-addon">Ime i prezime:</span>
+                  <input id="ime" type="text" class="form-control" name="ime" placeholder="Ime i prezime" [(ngModel)]='imePrezime'>
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon">Pol:</span>
+                <label class="radio-inline"><input type="radio" name="pol" value="musko" [(ngModel)]='pol'>Musko</label>
+                <label class="radio-inline"><input type="radio" name="pol" value="zensko" [(ngModel)]='pol'>Zensko</label>
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon">Sport:</span>
+                <select  (change)='popuniIndividualneDiscipline()' class="form-control" name='sport' [(ngModel)]='sport'>
+                  <option hidden >Izaberite sport</option>
+                  <option  *ngFor='let s of naziviIndividualnihSportova'>{{s}}</option>              
+                </select>
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon">Disciplina:</span>
+                <select class="form-control" name='disciplina' [(ngModel)]='disciplina'>
+                  <option selected hidden >Izaberite disciplinu</option>
+                  <option *ngFor='let d of naziviIndividualnihDisciplina'>{{d.disciplina}}</option>
+                </select>
+              </div>
+              <br>
+              <div class="input-group">
+                <button (click)='dodajIndividualnogSportistu()'>Dodaj sportistu</button>
+              </div>
+              <span>{{message1}}</span>
+            </form>
+        </div>
+        <div class="col-sm-6">
+          <form>
+            <h3 class="text-center mt-5 mb-5">
+              Ekipni sportovi
+            </h3>
+            <br> 
+            <div class="input-group">
+              <span class="input-group-addon">Sport:</span>
+              <select class="form-control" name='sportEkipa' [(ngModel)]='sportEkipa'>
+                <option hidden >Izaberite sport</option>
+                <option  *ngFor='let s of naziviEkipnihSportova'>{{s}}</option>              
+              </select>
+            </div>
+            <br>
+            <div class="input-group">
+              <span class="input-group-addon">Pol:</span>
+              <label class="radio-inline"><input type="radio" name="pol" value="musko" [(ngModel)]='polEkipa'>Musko</label>
+              <label class="radio-inline"><input type="radio" name="pol" value="zensko" [(ngModel)]='polEkipa'>Zensko</label>
+            </div>
+            <br> 
+            <div class="input-group">
+                <span class="input-group-addon">Ime i prezime:</span>
+                <input id="ime" type="text" class="form-control" name="ime" placeholder="Ime i prezime" [(ngModel)]='imePrezimeEkipa'>
+                <button (click)='dodajEkipnogSportistu()'>Dodaj sportistu</button>
+                <br>
+                <span *ngFor='let ime of imePrezimeEkipaNiz;let i=index;' class="glyphicon glyphicon-chevron-right">{{imePrezimeEkipaNiz[i]}}</span>
+            </div>            
+            <br>
+            <div class="input-group">
+              <button (click)='dodajEkipu()'>Dodaj ekipu</button>
+            </div>
+            <span>{{message2}}</span>
+          </form>
+      </div>
+      </div>
+    </div>
+
+
+<footer class="container-fluid text-center">
+    <a href="/vodjaSportista#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>
+

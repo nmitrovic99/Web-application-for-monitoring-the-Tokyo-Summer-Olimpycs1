@@ -1,0 +1,159 @@
+<body id="vrhStrane">
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav ">
+          <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+          <li><a [routerLink]="['/pocetnaUcesnici']" routerLinkActive="active">UCESNICI</a></li>
+          <li><a [routerLink]="['/pocetnaMedalje']" routerLinkActive="active">MEDALJE</a></li>
+          <li><a [routerLink]="['/pocetnaPretraga']" routerLinkActive="active">PRETRAGA</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a *ngIf='prijavljenOrganizator' routerLink='/organizatorTakmicenje'><span
+                class="glyphicon glyphicon-new-window"></span>Nazad na organizator</a></li>
+          <li><a *ngIf='prijavljenDelegat' routerLink='/delegat'><span
+                class="glyphicon glyphicon-new-window"></span>Nazad na delegat</a></li>
+          <li><a *ngIf='prijavljenVodja' routerLink='/vodjaSportista'><span
+                class="glyphicon glyphicon-new-window"></span>Nazad na vodja delegacije</a></li>
+          <li><a *ngIf='!prijavljenKorisnik' routerLink='/login'><span
+                class="glyphicon glyphicon-log-in"></span>Login</a></li>
+          <li><a *ngIf='!prijavljenKorisnik' routerLink='/register'><span
+                class="glyphicon glyphicon-user"></span>Registracija</a></li>
+          <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="pretraga" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6 pretraga">
+        <h2 class="pretraga">Pretraga sportista</h2>
+        <hr>
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Ime i prezime:</span>
+            <input id="ime" type="text" class="form-control" name="ime" placeholder="Ime i prezime"
+              [(ngModel)]='pretragaImePrezime'>
+
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Zemlja:</span>
+            <input id="zemlja" type="text" class="form-control" name="zemlja" list="zemljeSportisti"
+              placeholder="Zemlja" [(ngModel)]='pretragaNacionalnost'>
+            <datalist id="zemljeSportisti">
+              <option *ngFor='let z of zemlje'>{{z.imeZemlje}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Sport:</span>
+            <input (change)='popuni()' id="sport" type="text" class="form-control" name="sport" list="sports"
+              placeholder="Sport" [(ngModel)]='pretragaSport'>
+            <datalist id="sports">
+              <option *ngFor='let s of naziviSportova'>{{s}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Disciplina:</span>
+            <input id="sport1" type="text" class="form-control" name="disciplina" list="disciplina"
+              placeholder="Disciplina" [(ngModel)]='pretragaDisciplina'>
+            <datalist *ngIf='naziviDisciplina' id="disciplina">
+              <option *ngFor='let d of naziviDisciplina'>{{d.disciplina}}</option>
+            </datalist>
+          </div>
+          <br>
+          <div class="input-group">
+            <span class="input-group-addon">Pol:</span>
+            <label class="radio-inline"><input type="radio" name="pol" value="musko" [(ngModel)]='pretragaPol'>M</label>
+            <label class="radio-inline"><input type="radio" name="pol" value="zensko"
+                [(ngModel)]='pretragaPol'>Z</label>
+          </div>
+          <br>
+          <div class="checkbox">
+            <label><input type="checkbox" value="" name="medalja" [(ngModel)]='pretragaMedalja'>samo osvajaci
+              medalja</label>
+          </div>
+          <hr>
+          <div class="input-group">
+            <button class="btn btn-primary" (click)='traziSportiste()'>Trazi sportistu</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-3"></div>
+    </div>
+  </div>
+
+  <div id="sportisti" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2 class="text-center mt-5 mb-5">
+          Pregled pretrazenih sportista
+        </h2>
+        <div class="d-flex flex-row-reverse bd-highlight mb-2">
+          <div class="p-2 bd-highlight">
+            <select (change)="onTableSizeChangeSportisti($event)" class="custom-select">
+              <option *ngFor="let size of tableSizesSportisti" [ngValue]="size">
+                {{ size }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Ime i Prezime</th>
+              <th scope="col">Pol</th>
+              <th scope="col">Sport</th>
+              <th scope="col">Disciplina</th>
+              <th scope="col">Nacionalnost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of pretrazeniSportisti | paginate : {
+                          id:'pagination3',
+                          itemsPerPage: tableSizeSportisti,
+                          currentPage: pageSportisti,
+                          totalItems: countSportisti
+                        };
+                  let i = index" [class.active]="i == currentIndex">
+              <td>{{s.imePrezime}}</td>
+              <td>{{s.pol}}</td>
+              <td>{{s.sport}}</td>
+              <td><span *ngFor='let d of s.disciplina'>{{d}} <br></span></td>
+              <td>{{s.nacionalnost}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center">
+          <pagination-controls id="pagination3" responsive="true" previousLabel="Prev" nextLabel="Next"
+            (pageChange)="onTableDataChangeSportisti($event)">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="container text-center">
+    <a href="/pocetnaPretraga#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+
+</body>

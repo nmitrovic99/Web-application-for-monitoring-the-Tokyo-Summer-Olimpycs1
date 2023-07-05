@@ -1,0 +1,95 @@
+<body id="vrhStrane">
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav ">
+          <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+          <li><a [routerLink]="['/organizatorZahtevi']" routerLinkActive="active">NEODOBRENI ZAHTEVI</a></li>
+          <li><a [routerLink]="['/organizatorSport']" routerLinkActive="active">SPORT</a></li>
+          <li><a [routerLink]="['/organizatorTakmicenje']" routerLinkActive="active">TAKMICENJA</a></li>
+          <li><a [routerLink]="['/organizatorRekord']" routerLinkActive="active">REKORDI</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+          <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="rekord" class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Rekordi za muskarce</div>
+          <div class="panel-body">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Disciplina</th>
+                  <th scope="col">Godina i mesto</th>
+                  <th scope="col">Takmicar</th>
+                  <th scope="col">Nacionalnost</th>
+                  <th scope="col">Rekord</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let rek of rekordiMuskarci'>
+                  <td>{{rek.disciplina}}</td>
+                  <td>{{rek.godinaMesto}}</td>
+                  <td>{{rek.takmicar}}</td>
+                  <td>{{rek.nacionalnost}}</td>
+                  <td>{{rek.rekord}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-danger">
+          <div class="panel-heading">Rekordi za zene</div>
+          <div class="panel-body">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Disciplina</th>
+                  <th scope="col">Godina i mesto</th>
+                  <th scope="col">Takmicar</th>
+                  <th scope="col">Nacionalnost</th>
+                  <th scope="col">Rekord</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let rek of rekordiZene'>
+                  <td>{{rek.disciplina}}</td>
+                  <td>{{rek.godinaMesto}}</td>
+                  <td>{{rek.takmicar}}</td>
+                  <td>{{rek.nacionalnost}}</td>
+                  <td>{{rek.rekord}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <a href="/organizatorRekord#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>

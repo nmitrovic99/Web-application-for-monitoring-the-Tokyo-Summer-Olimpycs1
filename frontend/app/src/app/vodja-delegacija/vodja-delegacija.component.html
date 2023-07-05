@@ -1,0 +1,84 @@
+<body id="vrhStrane">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <img src="assets/logo.png" alt="Logo" class="navbar-brand">
+             
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav ">
+              <li><a [routerLink]="['/pocetna']" routerLinkActive="active">POCETNA</a></li>
+              <li><a [routerLink]="['/vodjaSportista']" routerLinkActive="active">DODAJ SPORTISTU</a></li>
+              <li><a [routerLink]="['/vodjaDelegacija']" routerLinkActive="active">CLANOVI DELEGACIJE</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink='/promenaLozinke'><span class="glyphicon glyphicon-edit"></span>Promeni</a></li>
+                <li><a (click)='odjaviSe()'><span class="glyphicon glyphicon-log-out"></span>Odjavi se</a></li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+ 
+    <div id="delegacija" class="container-fluid">
+        <div class="row">
+          <h2 id="discipline">Broj clanova delegacije<span class="label label-info">{{sportistiPoNacionalnostiBroj}}</span></h2>
+          <div class="col-sm-3 delegacija" >
+            <h3>Sportovi</h3>
+            <ul class="list-group">
+              <!--sportovi-->
+              <li *ngFor='let s of sportistiPoNacionalnostiSportu;let i=index;' class="list-group-item list-group-item-info">
+                <a href="/vodjaDelegacija#delegacija" (click)='prikaziDiscipline(i)'>{{sportistiPoNacionalnostiSportu[i]}}</a>&nbsp;&nbsp;&nbsp;<span class="label label-default">&nbsp;&nbsp;&nbsp;{{sportistiPoNacionalnostiSportuBroj[i]}}&nbsp;&nbsp;&nbsp;</span></li>
+            </ul>
+          </div>
+          <div class="col-sm-1"></div>
+          <div *ngIf='flagZaPrikazDisciplina'  class="col-sm-3 delegacija">
+            <h3>Discipline</h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">{{breadcrumbs1}}</li>
+              </ol>
+            </nav>
+            
+            <ul class="list-group">
+              <li *ngFor='let d of disciplinePoNacionalnostiSportu;let j=index;' class="list-group-item list-group-item-info">
+                <a href="/vodjaDelegacija#delegacija" (click)='prikaziSportiste(j)' >{{d}}</a>&nbsp;&nbsp;&nbsp;<span class="label label-default">&nbsp;&nbsp;&nbsp;{{disciplinePoNacionalnostiSportuBrojSportista[j]}}&nbsp;&nbsp;&nbsp;</span></li>
+            </ul>
+            <span *ngIf='buttonZaSportoveBezDiscipline'>{{message3}}</span><br>
+            <button class="btn btn-primary" *ngIf='buttonZaSportoveBezDiscipline' (click)='prikaziSportisteBezDiscipline()' >Prikazi sportiste</button>
+          </div>
+          <div class="col-sm-1"></div>
+          <div *ngIf='flagZaPrikazSportista'  class="col-sm-4 delegacija">
+            <h3>Sportisti</h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a (click)='ukloni()' href="/vodjaDelegacija#delegacija">{{breadcrumbs1}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{breadcrumbs2}}</li>
+              </ol>
+            </nav>
+            
+            <ul class="list-group">
+              <li *ngFor='let izabrani of izabraniSportisti;let k=index;' class="list-group-item list-group-item-info">{{izabrani.imePrezime}}</li>
+            </ul>
+            <ul class="list-group">
+              <li *ngFor='let izabrani of izabraniSportistiImePrezime;let k=index;' class="list-group-item list-group-item-info">{{izabrani}}</li>
+            </ul>
+          </div>
+        </div>      
+    </div>
+  
+
+<footer class="container-fluid text-center">
+    <a href="/vodjaDelegacija#vrhStrane" title="Vrh Strane">
+      <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
+    <p>&copy; Nemanja Mitrovic 0288/2018</p>
+  </footer>
+</body>
+
+
